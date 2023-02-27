@@ -1,4 +1,4 @@
-package com.simplon.rhp.models;
+package com.simplon.rhp.entities;
 
 
 import jakarta.persistence.Entity;
