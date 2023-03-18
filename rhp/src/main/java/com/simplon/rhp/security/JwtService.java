@@ -1,13 +1,15 @@
 package com.simplon.rhp.security;
 
-import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtProvider {
+public class JwtService {
 
     @Value(value = "${jwt.secret.key}")
     private String jwtSecret;
@@ -30,19 +32,18 @@ public class JwtProvider {
         this.token = token;
     }
 
-    private Claims extractAllClaims(String token){
-      Claims body = Jwts.parser()
-                .setSigningKey(getSecretKey())
-                .parseClaimsJws(token)
-                .getBody();
-        System.out.println(body);
-        return body;
+    private Claims extractAllClaims(String token) {
+        if(token != null) {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+        return null;
     }
 
-    private Key getSecretKey() {
-        byte[] secretKey = Decoders.BASE64.decode(jwtSecret);
-        return Keys.hmacShaKeyFor(secretKey);
-    }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -54,30 +55,34 @@ public class JwtProvider {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return buildToken(new HashMap<>(), userDetails);
     }
 
     /**
      * Generate token for user details and claims (roles) and expiration date (1 day)
-     * @param claims roles
+     *
+     * @param claims      roles
      * @param userDetails user details
      * @return token
      */
-    public String generateToken(
+    public String buildToken(
             Map<String, Object> claims,
             UserDetails userDetails
-    ){
+    ) {
+        claims.put("sub", userDetails.getUsername());
+        claims.put("authorities", userDetails.getAuthorities());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     /**
-     *  Method to validate token and check if it's expired
+     * Method to validate token and check if it's expired
+     *
      * @param token token
      * @return true if token is valid
      */
@@ -93,5 +98,12 @@ public class JwtProvider {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+
+    private Key getSecretKey() {
+        byte[] secretKey = Decoders.BASE64.decode(jwtSecret);
+        return Keys.hmacShaKeyFor(secretKey);
+    }
+
+
 
 }
