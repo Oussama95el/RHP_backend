@@ -1,5 +1,6 @@
 package com.simplon.rhp.entities;
 
+import com.simplon.rhp.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,13 +13,11 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Employee extends User  {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "employee_id_seq", sequenceName = "employee_id_seq", allocationSize = 1)
     private Long id;
-    private String firstName;
-    private String lastName;
     private String country;
     private String department;
     private String address;
@@ -27,6 +26,9 @@ public class Employee extends User  {
 
     @OneToOne
     private Profile profile;
+
+    @OneToOne
+    private User user;
 
     @OneToMany(mappedBy = "employee")
     private Collection<Absence> absences;

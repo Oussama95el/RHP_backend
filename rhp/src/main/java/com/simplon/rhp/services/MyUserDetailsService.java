@@ -1,7 +1,7 @@
 package com.simplon.rhp.services;
 
-import com.simplon.rhp.entities.User;
-import com.simplon.rhp.repositories.UserRepository;
+import com.simplon.rhp.user.User;
+import com.simplon.rhp.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
