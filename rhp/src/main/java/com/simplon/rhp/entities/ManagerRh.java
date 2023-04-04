@@ -13,15 +13,10 @@ import lombok.*;
 public class ManagerRh {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "managerRh_id_seq", sequenceName = "managerRh_id_seq", allocationSize = 1)
     private Long id;
 
     private String matricule;
 
     @OneToOne
     private User user;
-
-
-    @OneToOne
-    private Profile profile;
 }

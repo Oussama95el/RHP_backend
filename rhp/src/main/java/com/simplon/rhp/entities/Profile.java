@@ -1,7 +1,6 @@
 package com.simplon.rhp.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -23,6 +22,7 @@ public class Profile {
     private float taxRate;
     private float GrossSalary;
     private float benefits;
+
 
 
 }

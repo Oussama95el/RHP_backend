@@ -49,7 +49,6 @@ public class AuthenticationService {
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .token(jwtToken)
-        .role(user.getRole())
         .build();
   }
 
