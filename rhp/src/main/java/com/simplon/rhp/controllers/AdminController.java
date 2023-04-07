@@ -3,6 +3,7 @@ package com.simplon.rhp.controllers;
 import com.simplon.rhp.auth.RegisterRequest;
 import com.simplon.rhp.pojo.Response;
 import com.simplon.rhp.repositories.ManagerRhRepository;
+import com.simplon.rhp.services.AdminService;
 import com.simplon.rhp.user.Role;
 import com.simplon.rhp.user.User;
 import com.simplon.rhp.user.UserDto;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,23 +22,11 @@ import java.util.Map;
 public class AdminController {
 
 
-    private final ManagerRhRepository managerRhRepository;
-
-    private final PasswordEncoder passwordEncoder;
+    private final AdminService adminService;
     private final UserRepository userRepository;
 
     @PostMapping("register/manager")
     public Response registerManager(@RequestBody RegisterRequest newUser) {
-        var user = User.builder()
-                .firstname(newUser.getFirstname())
-                .lastname(newUser.getLastname())
-                .email(newUser.getEmail())
-                .password(passwordEncoder.encode(newUser.getPassword()))
-                .role(Role.RH_MANAGER)
-                .build();
-        var saved = userRepository.save(user);
-        Map<String, User> data = new HashMap<>();
-        data.put("Data", saved);
         return Response.builder()
                 .timestamp(java.time.LocalDateTime.now())
                 .statusCode(200)
@@ -46,18 +34,13 @@ public class AdminController {
                 .message("User registered successfully")
                 .reason("User registered successfully")
                 .developerMessage("User registered successfully")
-                .data(data)
+                .data(adminService.registerManager(newUser))
                 .build();
     }
 
 
     @GetMapping("statistics")
     public Response getStatistics() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("managers", userRepository.findByRole(Role.RH_MANAGER).size());
-        data.put("employees", userRepository.findByRole(Role.EMPLOYEE).size());
-        data.put("agents", userRepository.findByRole(Role.RH_AGENT).size());
-        data.put("users", userRepository.findAll().size());
         return Response.builder()
                 .timestamp(java.time.LocalDateTime.now())
                 .statusCode(200)
@@ -65,7 +48,7 @@ public class AdminController {
                 .message("Statistics retrieved successfully")
                 .reason("Statistics retrieved successfully")
                 .developerMessage("Data fetched successfully")
-                .data(data)
+                .data(adminService.getStatistics())
                 .build();
     }
 

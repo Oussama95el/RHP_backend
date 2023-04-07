@@ -2,8 +2,8 @@ package com.simplon.rhp.repositories;
 
 import com.simplon.rhp.entities.ManagerRh;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource
+@Repository
 public interface ManagerRhRepository extends JpaRepository<ManagerRh, Long> {
 }
