@@ -24,6 +24,7 @@ public class Employee {
     private String city;
     private String phone;
 
+
     @OneToOne
     private Profile profile;
 

@@ -24,7 +24,7 @@ public class EmailSender {
 
 
     // email sent to the user when his account is created
-    public void sendEmailUserCreated(String toAddress,String firstName,String lastname , String username,String password) {
+    public void sendEmailUserCreated(String toAddress,String firstName, String username,String password) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(toAddress);
         msg.setSubject("Welcome to RHP");

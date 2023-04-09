@@ -45,7 +45,7 @@ public class AdminService {
                 .build();
         var saved = managerRhRepository.save(manager);
         // send email
-        emailSender.sendEmailUserCreated(newUser.getEmail(),newUser.getFirstname(),newUser.getLastname(), newUser.getEmail(), newUser.getPassword());
+        emailSender.sendEmailUserCreated(newUser.getEmail(),newUser.getFirstname(), newUser.getEmail(), newUser.getPassword());
         Map<String, ManagerRh> data = new HashMap<>();
         data.put("Data", saved);
         return data;

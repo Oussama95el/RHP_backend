@@ -43,7 +43,7 @@ public class ManagerService {
                 .build();
         var saved = agentRhRepository.save(agent);
         // send email
-        emailSender.sendEmailUserCreated(newUser.getEmail(),newUser.getFirstname(),newUser.getLastname(), newUser.getEmail(), newUser.getPassword());
+        emailSender.sendEmailUserCreated(newUser.getEmail(),newUser.getFirstname(), newUser.getEmail(), newUser.getPassword());
         Map<String, AgentRh> data = new HashMap<>();
         data.put("Data", saved);
         return data;

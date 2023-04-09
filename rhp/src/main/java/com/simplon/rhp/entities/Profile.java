@@ -12,7 +12,11 @@ import lombok.*;
 public class Profile {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "profile_id_seq", sequenceName = "profile_id_seq", allocationSize = 1)
     private Long registrationNumber;
+
+    private String matricule;
     private String jobTitle;
     private String description;
     private Boolean joint;
