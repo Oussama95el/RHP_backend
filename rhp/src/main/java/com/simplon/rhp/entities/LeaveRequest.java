@@ -1,8 +1,7 @@
 package com.simplon.rhp.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.simplon.rhp.enums.Status;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -10,15 +9,19 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class LeaveRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "leave_request_id_seq", sequenceName = "leave_request_id_seq", allocationSize = 1)
     private Long id;
 
     private String type;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private String startDate;
 

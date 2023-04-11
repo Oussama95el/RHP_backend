@@ -40,7 +40,7 @@ public class AdminService {
         var savedUser = userRepository.save(user);
         // create manager and save it
         var manager = com.simplon.rhp.entities.ManagerRh.builder()
-                .matricule(newUser.getFirstname().substring(0,1).toUpperCase()+newUser.getLastname().substring(0,1).toUpperCase()+savedUser.getId()+Math.random())
+                .matricule(newUser.getFirstname().substring(0,1).toUpperCase()+newUser.getLastname().substring(0,1).toUpperCase()+savedUser.getId())
                 .user(savedUser)
                 .build();
         var saved = managerRhRepository.save(manager);

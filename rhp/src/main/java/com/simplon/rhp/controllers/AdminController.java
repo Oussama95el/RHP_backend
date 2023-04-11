@@ -54,7 +54,7 @@ public class AdminController {
 
     @GetMapping("users")
     public ResponseEntity<List<UserDto>> getUsers() {
-        Map<Integer, UserDto> data = new HashMap<>();
+        Map<Long, UserDto> data = new HashMap<>();
         List<User> users = userRepository.findAll().stream().filter(user -> user.getRole() != Role.ADMIN).toList();
         for (User user : users) {
             data.put(user.getId(), UserDto.builder()

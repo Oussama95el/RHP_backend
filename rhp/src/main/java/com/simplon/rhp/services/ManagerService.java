@@ -38,7 +38,7 @@ public class ManagerService {
         var savedUser = userRepository.save(user);
         // create agent and save it
         var agent = com.simplon.rhp.entities.AgentRh.builder()
-                .matricule(newUser.getFirstname().substring(0,1).toUpperCase()+newUser.getLastname().substring(0,1).toUpperCase()+savedUser.getId()+Math.random())
+                .matricule(newUser.getFirstname().substring(0,1).toUpperCase()+newUser.getLastname().substring(0,1).toUpperCase()+savedUser.getId())
                 .user(savedUser)
                 .build();
         var saved = agentRhRepository.save(agent);

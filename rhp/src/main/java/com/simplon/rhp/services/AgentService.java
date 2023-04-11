@@ -43,15 +43,15 @@ public class AgentService {
         var savedUser = userRepository.save(user);
         // create profile and save it
         var profile = Profile.builder()
-                .matricule(employee.getFirstname().substring(0,1).toUpperCase()+employee.getLastname().substring(0,1).toUpperCase()+savedUser.getId()+Math.random())
+                .matricule(employee.getFirstname().substring(0,1).toUpperCase()+employee.getLastname().substring(0,1).toUpperCase()+savedUser.getId())
                 .build();
         var savedProfile = profileRepository.save(profile);
         // create employee and save it
-        var agent = Employee.builder()
+        var emp = Employee.builder()
                 .profile(profile)
                 .user(savedUser)
                 .build();
-        var saved = employeeRepository.save(agent);
+        var saved = employeeRepository.save(emp);
         // send email
         emailSender.sendEmailUserCreated(employee.getEmail(),employee.getFirstname(), employee.getEmail(), employee.getPassword());
         Map<String, Employee> data = new HashMap<>();

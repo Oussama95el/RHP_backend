@@ -1,8 +1,11 @@
 package com.simplon.rhp.entities;
 
 import com.simplon.rhp.user.User;
+import com.simplon.rhp.user.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 import java.util.Collection;
@@ -12,6 +15,7 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class Employee {
     @Id
@@ -29,15 +33,24 @@ public class Employee {
     private Profile profile;
 
     @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "employee")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private Collection<Absence> absences;
 
     @OneToMany(mappedBy = "employee")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private Collection<LeaveRequest> leaveRequests;
 
     @OneToMany(mappedBy = "employee")
+    @Fetch(FetchMode.JOIN)
+    @ToString.Exclude
     private Collection<PaySlip> paySlips;
+
+
 
 }
