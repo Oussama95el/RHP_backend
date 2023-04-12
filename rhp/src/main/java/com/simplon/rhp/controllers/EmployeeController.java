@@ -46,6 +46,7 @@ public class EmployeeController {
 
     @PostMapping("profile/update")
     public Response updateProfile(@RequestBody Profile profile){
+        System.out.println("\n\nprofile : \n" + profile.toString());
         return  Response.builder()
                 .data(employeeService.updateProfile(profile))
                 .timestamp(LocalDateTime.now())

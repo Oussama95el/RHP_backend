@@ -53,18 +53,9 @@ public class AdminController {
     }
 
     @GetMapping("users")
-    public ResponseEntity<List<UserDto>> getUsers() {
-        Map<Long, UserDto> data = new HashMap<>();
-        List<User> users = userRepository.findAll().stream().filter(user -> user.getRole() != Role.ADMIN).toList();
-        for (User user : users) {
-            data.put(user.getId(), UserDto.builder()
-                    .firstname(user.getFirstname())
-                    .lastname(user.getLastname())
-                    .email(user.getEmail())
-                    .role(user.getRole())
-                    .build());
-        }
-        return ResponseEntity.ok(data.values().stream().toList());
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userRepository.findAll().stream().filter(user -> user.getRole() != Role.ADMIN).limit(5).toList();
+        return ResponseEntity.ok(users);
     }
 
 

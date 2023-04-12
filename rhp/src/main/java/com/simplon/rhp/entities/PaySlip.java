@@ -22,8 +22,6 @@ public class PaySlip {
 
     private float grossSalary;
 
-    private float netSalary;
-
     private float benefits;
 
     private float taxRate;

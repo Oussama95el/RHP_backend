@@ -6,7 +6,6 @@ import com.simplon.rhp.repositories.ManagerRhRepository;
 import com.simplon.rhp.services.mail.EmailSender;
 import com.simplon.rhp.user.Role;
 import com.simplon.rhp.user.User;
-import com.simplon.rhp.user.UserDto;
 import com.simplon.rhp.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,7 +57,7 @@ public class AdminService {
         data.put("managers", users.stream().filter(user -> user.getRole().equals(Role.RH_MANAGER)).count());
         data.put("employees", users.stream().filter(user -> user.getRole().equals(Role.EMPLOYEE)).count());
         data.put("agents", users.stream().filter(user -> user.getRole().equals(Role.RH_AGENT)).count());
-        data.put("users", users.size());
+        data.put("users", users.stream().filter(user -> !user.getRole().equals(Role.ADMIN)).count());
         return data;
     }
 }
