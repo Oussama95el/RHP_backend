@@ -4,17 +4,32 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.simplon.rhp.entities.Employee;
+import com.simplon.rhp.entities.PaySlip;
+import com.simplon.rhp.entities.Profile;
+import com.simplon.rhp.services.PaySlipService;
+import com.simplon.rhp.user.User;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 
 @Service
+@RequiredArgsConstructor
 public class PdfService {
 
 
-    public void generatePaySlipPdf(HttpServletResponse response) throws Exception {
+    private final PaySlipService paySlipService;
 
+    public void generatePaySlipPdf(HttpServletResponse response , Long id) throws Exception {
+
+        PaySlip paySlip = paySlipService.getPaySlipById(id);
+        assert paySlip != null;
+        Employee employee = paySlip.getEmployee();
+        Profile profile = employee.getProfile();
+        User user = employee.getUser();
         try {
             // Create a new PDF document
             Document document = new Document();
@@ -32,7 +47,7 @@ public class PdfService {
             Paragraph header = new Paragraph("PAY SLIP", headerFont);
             header.setAlignment(Element.ALIGN_CENTER);
             document.add(header);
-            document.addTitle("PAY SLIP");
+            document.addTitle("PAY SLIP FOR " + user.getFirstname().toUpperCase());
 
             // Add the body section to the document
             PdfPTable table = new PdfPTable(2);
@@ -41,13 +56,13 @@ public class PdfService {
             table.setSpacingAfter(10);
 
             table.addCell(new PdfPCell(new Phrase("Employee Name:", bodyFont)));
-            table.addCell(new PdfPCell(new Phrase("John Doe", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase(user.getFirstname(), bodyFont)));
 
             table.addCell(new PdfPCell(new Phrase("Employee ID:", bodyFont)));
-            table.addCell(new PdfPCell(new Phrase("12345", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase(profile.getMatricule(), bodyFont)));
 
-            table.addCell(new PdfPCell(new Phrase("Salary:", bodyFont)));
-            table.addCell(new PdfPCell(new Phrase("$5000", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase("Net Salary:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( profile.getNetSalary()+"MAD" , bodyFont)));
 
             document.add(table);
 

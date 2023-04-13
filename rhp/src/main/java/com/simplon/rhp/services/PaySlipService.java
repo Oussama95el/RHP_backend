@@ -1,8 +1,11 @@
 package com.simplon.rhp.services;
 
+import com.simplon.rhp.entities.PaySlip;
 import com.simplon.rhp.repositories.PaySlipRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 @RequiredArgsConstructor
@@ -22,4 +25,7 @@ public class PaySlipService {
         return netSalary + (netSalary * taxRate) + benefits - deductions;
     }
 
+    public PaySlip getPaySlipById(Long id) {
+        return paySlipRepository.findById(id).orElse(null);
+    }
 }

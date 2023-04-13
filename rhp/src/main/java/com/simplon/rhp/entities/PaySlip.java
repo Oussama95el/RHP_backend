@@ -1,8 +1,6 @@
 package com.simplon.rhp.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -16,6 +14,8 @@ import java.util.Date;
 public class PaySlip {
 
     @Id
+    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator( name = "payslip_id_sequence" , sequenceName = "payslip_id_sequence" , allocationSize = 1)
     private Long id;
 
     private Date month;

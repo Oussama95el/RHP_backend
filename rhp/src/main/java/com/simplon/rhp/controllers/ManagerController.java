@@ -41,7 +41,7 @@ public class ManagerController {
 
 
     @GetMapping("pdf/payslip")
-    public void generatePaySlip(HttpServletResponse response) throws Exception {
+    public void generatePaySlip(HttpServletResponse response, @PathVariable Long ref) throws Exception {
         response.setContentType("application/pdf");
         // format date
         DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.LONG);
@@ -51,7 +51,7 @@ public class ManagerController {
         String headerValue = "attachment; filename=payslip_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
 
-        pdfService.generatePaySlipPdf(response);
+        pdfService.generatePaySlipPdf(response,ref);
         // download the PDF file
         response.getOutputStream().flush();
     }
