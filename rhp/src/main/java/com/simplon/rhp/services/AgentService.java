@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,6 +33,7 @@ public class AgentService {
 
 
     public Map<?,?> registerEmployee(RegisterRequest employee) {
+        try {
         // create user and save it
         var user = User.builder()
                 .firstname(employee.getFirstname())
@@ -57,5 +59,22 @@ public class AgentService {
         Map<String, Employee> data = new HashMap<>();
         data.put("Data", saved);
         return data;
+        } catch (Exception e) {
+            Map<String, String> data = new HashMap<>();
+            data.put("Error", e.getMessage());
+            return data;
+        }
+    }
+
+    public List<Employee> getAllEmployees() {
+        try {
+            List<Employee> employees = employeeRepository.findAll();
+            employees.forEach(employee -> {
+                System.out.println(employee.toString());
+            });
+            return employees;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

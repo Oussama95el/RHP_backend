@@ -1,20 +1,17 @@
-package com.simplon.rhp.controllers;
 
+package com.simplon.rhp.controllers;
 import com.simplon.rhp.auth.RegisterRequest;
 import com.simplon.rhp.pojo.Response;
-import com.simplon.rhp.repositories.ManagerRhRepository;
 import com.simplon.rhp.services.AdminService;
 import com.simplon.rhp.user.Role;
 import com.simplon.rhp.user.User;
-import com.simplon.rhp.user.UserDto;
 import com.simplon.rhp.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/admin/")
@@ -26,6 +23,7 @@ public class AdminController {
     private final UserRepository userRepository;
 
     @PostMapping("register/manager")
+    @PreAuthorize("hasRole('ADMIN')")
     public Response registerManager(@RequestBody RegisterRequest newUser) {
         return Response.builder()
                 .timestamp(java.time.LocalDateTime.now())
@@ -53,6 +51,7 @@ public class AdminController {
     }
 
     @GetMapping("users")
+    @PreAuthorize(value = "hasRole('ADMIN', 'RH_MANAGER', 'EMPLOYEE','RH_AGENT')")
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userRepository.findAll().stream().filter(user -> user.getRole() != Role.ADMIN).limit(5).toList();
         return ResponseEntity.ok(users);

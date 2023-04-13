@@ -28,6 +28,7 @@ public class AdminService {
     private final EmailSender emailSender;
 
     public Map<String,?> registerManager(RegisterRequest newUser) {
+        try {
         // create user and save it
         var user = User.builder()
                 .firstname(newUser.getFirstname())
@@ -48,6 +49,11 @@ public class AdminService {
         Map<String, ManagerRh> data = new HashMap<>();
         data.put("Data", saved);
         return data;
+        } catch (Exception e) {
+            Map<String, String> data = new HashMap<>();
+            data.put("Error", e.getMessage());
+            return data;
+        }
     }
 
     public Map<String,?> getStatistics() {

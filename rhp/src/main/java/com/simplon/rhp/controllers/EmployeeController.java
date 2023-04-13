@@ -10,6 +10,7 @@ import com.simplon.rhp.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.mapping.Map;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class EmployeeController {
 
 
     @PostMapping("leave-request")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE')")
     public Response createLeaveRequest(@RequestBody RegisterLeaveRequest leaveRequest){
         var res =  employeeService.createLeaveRequest(leaveRequest);
         if (res == null){
@@ -45,6 +47,7 @@ public class EmployeeController {
 
 
     @PostMapping("profile/update")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE')")
     public Response updateProfile(@RequestBody Profile profile){
         System.out.println("\n\nprofile : \n" + profile.toString());
         return  Response.builder()
@@ -56,8 +59,8 @@ public class EmployeeController {
     }
 
     @GetMapping("profile")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE')")
     public Response getProfile(@RequestParam String email){
-        System.out.println("email" + email);
         return Response.builder()
                 .data(employeeService.getProfile(email))
                 .timestamp(LocalDateTime.now())

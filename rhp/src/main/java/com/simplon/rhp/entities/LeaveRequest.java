@@ -1,5 +1,7 @@
 package com.simplon.rhp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.simplon.rhp.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +32,7 @@ public class LeaveRequest {
     private String comment;
 
     @ManyToOne
+    @JsonIgnore
     private Employee employee;
 
 

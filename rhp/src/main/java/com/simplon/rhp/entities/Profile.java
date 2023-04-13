@@ -3,6 +3,7 @@ package com.simplon.rhp.entities;
 import com.simplon.rhp.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -28,7 +29,10 @@ public class Profile {
 
     @Column(name = "salary_net")
     private Double netSalary = 0.0;
+
+    @Nullable
     private Double benefits = 0.0;
+
 
 
 }

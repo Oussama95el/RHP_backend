@@ -61,6 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
     }
+    response.setHeader("Content-Security-Policy", "font-src http://localhost:4200");
     // Continue filter execution
     filterChain.doFilter(request, response);
   }

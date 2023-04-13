@@ -6,10 +6,11 @@ import com.simplon.rhp.pojo.Response;
 import com.simplon.rhp.repositories.AgentRhRepository;
 import com.simplon.rhp.services.AgentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/agent/")
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AgentController {
 
     private final AgentService agentService;
-
+    private final AgentRhRepository agentRhRepository;
 
 
     @PostMapping("register/employee")
@@ -33,6 +34,12 @@ public class AgentController {
                 .developerMessage("User registered successfully")
                 .data(agentService.registerEmployee(employee))
                 .build();
+    }
+
+
+    @GetMapping("employees")
+    public ResponseEntity<List<Employee>> getAllEmployees(){
+        return ResponseEntity.ok(agentService.getAllEmployees());
     }
 
 }
