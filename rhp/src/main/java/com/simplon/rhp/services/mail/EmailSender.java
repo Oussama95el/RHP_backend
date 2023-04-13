@@ -24,21 +24,24 @@ public class EmailSender {
 
 
     // email sent to the user when his account is created
-    public void sendEmailUserCreated(String toAddress,String firstName, String username,String password) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(toAddress);
-        msg.setSubject("Welcome to RHP");
-        msg.setText("Dear " + firstName+ ",\n\n" +
-                "We are pleased to inform you that your account has been successfully created on our platform.\n\n" +
-                "Thank you for choosing our services and trusting us with your business needs." +
-                "Your account details are as follows:\n\n" +
-                        "\tUsername: " + username + "\n" +
-                        "\tPassword: " + password + "\n\n" +
-                "Please do not hesitate to contact us if you have any questions or concerns.\n\n" +
-                "Best regards,\n" +
-                "The RHP Team");
-        javaMailSender.send(msg);
+    public void sendEmailUserCreated(String toAddress, String firstName, String username, String password) {
+        try {
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setTo(toAddress);
+            msg.setSubject("Welcome to RHP");
+            msg.setText("Dear " + firstName + ",\n\n" +
+                    "We are pleased to inform you that your account has been successfully created on our platform.\n\n" +
+                    "Thank you for choosing our services and trusting us with your business needs." +
+                    "Your account details are as follows:\n\n" +
+                    "\tUsername: " + username + "\n" +
+                    "\tPassword: " + password + "\n\n" +
+                    "Please do not hesitate to contact us if you have any questions or concerns.\n\n" +
+                    "Best regards,\n" +
+                    "The RHP Team");
+            javaMailSender.send(msg);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
 
 }
