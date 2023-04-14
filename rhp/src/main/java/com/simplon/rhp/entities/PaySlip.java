@@ -18,7 +18,8 @@ public class PaySlip {
     @SequenceGenerator( name = "payslip_id_sequence" , sequenceName = "payslip_id_sequence" , allocationSize = 1)
     private Long id;
 
-    private Date month;
+    private Date date;
+    private String month;
 
     private float grossSalary;
 
@@ -30,7 +31,7 @@ public class PaySlip {
 
     private float deductions;
 
-    private float overtimeHours;
+    private int overtimeHours;
 
     @ManyToOne
     private Employee employee;

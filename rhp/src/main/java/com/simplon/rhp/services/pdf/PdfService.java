@@ -56,13 +56,37 @@ public class PdfService {
             table.setSpacingAfter(10);
 
             table.addCell(new PdfPCell(new Phrase("Employee Name:", bodyFont)));
-            table.addCell(new PdfPCell(new Phrase(user.getFirstname(), bodyFont)));
+            table.addCell(new PdfPCell(new Phrase(user.getFirstname()+ " " + user.getLastname(), bodyFont)));
 
             table.addCell(new PdfPCell(new Phrase("Employee ID:", bodyFont)));
             table.addCell(new PdfPCell(new Phrase(profile.getMatricule(), bodyFont)));
 
             table.addCell(new PdfPCell(new Phrase("Net Salary:", bodyFont)));
-            table.addCell(new PdfPCell(new Phrase( profile.getNetSalary()+"MAD" , bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( profile.getNetSalary()+" MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Gross Salary:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getGrossSalary()+"MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Tax:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getTaxRate() * 100 +"%" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Tax Amount:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getTaxAmount()+" MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Benefits:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getBenefits()+" MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Deductions:", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getDeductions()+" MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Overtime Hours", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( paySlip.getOvertimeHours()+" H" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Total HT", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( calculateTaxFreeTotal(paySlip)+" MAD" , bodyFont)));
+
+            table.addCell(new PdfPCell(new Phrase("Total TTC", bodyFont)));
+            table.addCell(new PdfPCell(new Phrase( calculateTotalAmount(paySlip)+" MAD" , bodyFont)));
 
             document.add(table);
 
@@ -82,7 +106,18 @@ public class PdfService {
 //        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 //        PdfWriter.getInstance(document, outputStream);
 //        document.open();
-//        document.close();
-
+//        document.close()
     }
+
+
+    // calculate the total amount of the pay slip
+    public double calculateTotalAmount(PaySlip paySlip){
+        return paySlip.getGrossSalary() + paySlip.getBenefits() - paySlip.getDeductions() - paySlip.getTaxAmount();
+    }
+
+    //calculate the total amount tax free
+    public double calculateTaxFreeTotal(PaySlip paySlip){
+        return paySlip.getGrossSalary() + paySlip.getBenefits() - paySlip.getDeductions();
+    }
+
 }
