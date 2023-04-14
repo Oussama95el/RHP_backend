@@ -36,6 +36,8 @@ public class EmailSender {
                     "\tUsername: " + username + "\n" +
                     "\tPassword: " + password + "\n\n" +
                     "Please do not hesitate to contact us if you have any questions or concerns.\n\n" +
+                    "these are your credentials to login to the platform.\n\n" +
+
                     "Best regards,\n" +
                     "The RHP Team");
             javaMailSender.send(msg);

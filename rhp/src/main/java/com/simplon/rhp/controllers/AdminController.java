@@ -53,7 +53,7 @@ public class AdminController {
     @GetMapping("users")
     @PreAuthorize(value = "hasRole('ADMIN', 'RH_MANAGER', 'EMPLOYEE','RH_AGENT')")
     public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userRepository.findAll().stream().filter(user -> user.getRole() != Role.ADMIN).limit(5).toList();
+        List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
